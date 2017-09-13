@@ -1,4 +1,4 @@
-command: "/usr/local/bin/task export status:pending"
+command: "/usr/local/bin/task export +work status:pending"
 
 refreshFrequency: 10000 # every 10 sec
 
@@ -48,6 +48,7 @@ update: (output, domEl) ->
 		finalString = ''
 		cofAlpha = (i * 0.05) * (-1) + 1 # transparency for this line in the table
 
+
 		if task.due != undefined
 			# Task warrior date strings are weirdly formatted
 			dueDateIsoStr = task.due.slice(0, 4) + "-" + task.due.slice(4, 6) + "-" + task.due.slice(6, 11) + ":" + task.due.slice(11, 13) + ":" + task.due.slice(13);
@@ -79,6 +80,7 @@ update: (output, domEl) ->
 		else
 			finalString = "<tr style='background-color:rgba(255, 255, 255, #{cofAlpha*0.06})'>"
 
+
 		# Handle the cell containing the due date offset
 		if dueDateOffset < 0
 			finalString += "<td  style='color:rgba(255, 0, 0, #{cofAlpha})'>#{dueDateOffset}</td>"
@@ -87,8 +89,10 @@ update: (output, domEl) ->
 		else if dueDateOffset > 9999
 			finalString += "<td></td>"
 		else
-			finalString += "<td  style='color:rgba(255, 255, 255, #{cofAlpha})'>#{dueDateOffset}</td>"
+			finalString += "<td  style='color:rgba(252,255,175, #{cofAlpha})'>#{dueDateOffset}</td>"
 
+		
+		""" Currently not using priority 
 		# Handle the cell containing the priority
 		if task.priority == "H"
 			finalString += "<td  style='color:rgba(150, 200, 255, #{cofAlpha})'>#{priority}</td>"
@@ -96,6 +100,13 @@ update: (output, domEl) ->
 			finalString += "<td  style='color:rgba(0, 150, 255, #{cofAlpha})'>#{priority}</td>"
 		else
 			finalString += "<td  style='color:rgba(0, 0, 255, #{cofAlpha})'>#{priority}</td>"
+		"""
+
+		# Add task id - if started, change to color red
+		if task.start != undefined
+			finalString += "<td style='color:rgba(255, 50, 50, #{cofAlpha})'>#{task.id}</td>"
+		else
+			finalString += "<td style='color:rgba(0, 150, 255, #{cofAlpha})'>#{task.id}</td>"
 
 		# Add the cell containing the project name
 		finalString += "<td  style='color:rgba(255, 255, 255, #{cofAlpha})'>#{project}</td>"
